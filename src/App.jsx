@@ -1,9 +1,11 @@
-import "./App.css";
-
+function Header({ name }) {
+    return <h1> hello {name}</h1>;
+}
 export default function App() {
-	return (
-		<h1 className="text-3xl font-bold text-emerald-500 underline">
-			Hello world!
-		</h1>
-	);
+    return (
+        <div className="grid gap-4">
+            <Header name="bob"> </Header>
+            <h1 className="underline bg-yellow-400">Hello world!</h1>
+        </div>
+    );
 }
