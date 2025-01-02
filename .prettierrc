@@ -1,5 +1,21 @@
 {
+  "tabWidth": 2,
+  "useTabs": false,
+  "semi": true,
+  "singleQuote": false,
+  "trailingComma": "es5",
+  "bracketSpacing": true,
+  "arrowParens": "always",
+  "printWidth": 80,
+  "xmlWhitespaceSensitivity": "strict",
+  "xmlSortAttributes": false,
   "overrides": [
+    {
+      "files": "*.tsx",
+      "options": {
+        "tabWidth": 2
+      }
+    },
     {
       "files": "*.html",
       "options": {
@@ -9,13 +25,7 @@
     {
       "files": "*.jsx",
       "options": {
-        "tabWidth": 4
-      }
-    },
-    {
-      "files": "*.js",
-      "options": {
-        "tabWidth": 4
+        "tabWidth": 2
       }
     }
   ]
