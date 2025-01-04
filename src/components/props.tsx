@@ -1,9 +1,6 @@
-type Prop = {
-  name: string;
-  age: number;
-};
+import { personProp } from "../types";
 
-function MyComponent({ name, age }: Prop) {
+function MyComponent({ name, age }: personProp) {
   return (
     <div>
       <p>Name: {name}</p>

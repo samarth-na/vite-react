@@ -7,7 +7,6 @@ const BodyBackground = () => {
   useEffect(() => {
     document.body.style.backgroundColor =
       theme === "light" ? "#ffffff" : "#1a1a1a";
-    document.body.style.transition = "background-color 0.3s ease";
 
     // Cleanup function to reset body background
     return () => {
