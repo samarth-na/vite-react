@@ -1,43 +1,35 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 
 const BodyBackground = () => {
-  const [theme, setTheme] = useState("light");
+  const [hex, setHex] = useState("");
 
-  // Method 1: Using useEffect to modify body directly
+  function HexGenerator() {
+    const string = "1234567890abcdef";
+    let hex = "#";
+
+    for (let i = 0; i < 6; i++) {
+      hex += string[Math.floor(Math.random() * 16)];
+    }
+    return hex;
+  }
+
   useEffect(() => {
-    document.body.style.backgroundColor =
-      theme === "light" ? "#ffffff" : "#1a1a1a";
-
-    // Cleanup function to reset body background
-    return () => {
-      document.body.style.backgroundColor = "";
-      document.body.style.transition = "";
-    };
-  }, [theme]);
-
-  // Method 2: Using className on body
-  useEffect(() => {
-    document.body.className = theme === "light" ? "bg-white" : "bg-gray-900";
-
-    // Cleanup function to reset body class
-    return () => {
-      document.body.className = "";
-    };
-  }, [theme]);
+    if (hex) {
+      document.body.style.backgroundColor = hex;
+    }
+  }, [hex]); // Update background whenever `hex` changes
 
   return (
     <div className="p-4">
       <button
-        onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+        onClick={() => setHex(HexGenerator())}
         className="py-2 px-4 text-white bg-blue-500 rounded transition-colors hover:bg-blue-600"
       >
-        Toggle Theme: {theme}
+        Get BG as: {hex || "Click to generate"}
       </button>
 
-      <div
-        className={`mt-4 p-4 rounded ${theme === "light" ? "bg-gray-100 text-black" : "bg-gray-800 text-white"}`}
-      >
-        Current theme: {theme}
+      <div className="p-4 mt-4 rounded">
+        Current theme: {hex || "No color generated yet"}
       </div>
     </div>
   );
