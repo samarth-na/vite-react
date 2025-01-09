@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Event } from "../types";
+import { Event } from "../types.tsx";
 
 interface Item {
   id: number;
@@ -11,10 +11,18 @@ interface Filter {
   done: boolean;
 }
 
+function loadItems(): Item[] {
+  const jsonString = localStorage.getItem("data");
+  if (jsonString) {
+    return JSON.parse(jsonString);
+  } else {
+    return [];
+  }
+}
 function DeleteDemo(): JSX.Element {
   //
   const [inputText, setInputText] = useState<string>("");
-  const [items, setItems] = useState<Item[]>([]);
+  const [items, setItems] = useState<Item[]>(loadItems());
 
   const [filter, setFilter] = useState<Filter>({
     active: false,
@@ -24,14 +32,14 @@ function DeleteDemo(): JSX.Element {
   function handleAdd(): void {
     if (inputText.trim() !== "") {
       const newItem: Item = {
-        id: items.length + 1,
+        id: Date.now(),
         text: inputText,
         done: false,
       };
 
-      setItems([...items, newItem]);
-      setInputText("");
-      // setFilter({ active: false, done: false });
+      const updatedItems = [...items, newItem]; // Create the updated array
+      setItems(updatedItems); // Update the state
+      setInputText(""); // Clear the input field
     }
   }
 
@@ -44,6 +52,7 @@ function DeleteDemo(): JSX.Element {
   }
   useEffect(() => {
     console.log(items);
+    localStorage.setItem("data", JSON.stringify(items)); // Save updated array to localStorage
   }, [items]);
 
   useEffect(() => {
@@ -57,8 +66,8 @@ function DeleteDemo(): JSX.Element {
   }, [filter]);
 
   return (
-    <>
-      <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 justify-between items-center flex-2">
+      <div className="flex flex-col flex-none gap-4">
         <div className="flex gap-4 justify-between items-center flex-2">
           <input
             type="text"
@@ -94,7 +103,7 @@ function DeleteDemo(): JSX.Element {
             : "completed"}
       </div>
 
-      <div className="min-w-[40vw]">
+      <div className="min-w-[25vw]">
         {}
         <div className="space-y-2">
           {items
@@ -126,7 +135,7 @@ function DeleteDemo(): JSX.Element {
                       )
                     )
                   }
-                  className="basis-1/6"
+                  className="m-2 basis-1/6"
                 />
 
                 {}
@@ -141,7 +150,13 @@ function DeleteDemo(): JSX.Element {
             ))}
         </div>
       </div>
-    </>
+      <button
+        className="max-w-max bg-black hover:bg-red-500 focus:ring-red-500 basis-1/6"
+        onClick={() => localStorage.removeItem("data")}
+      >
+        DELETE
+      </button>
+    </div>
   );
 }
 
