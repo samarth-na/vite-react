@@ -84,7 +84,7 @@ function Todo(): JSX.Element {
       <FilterButtons />
       <ListHeaderText />
 
-      <div className="space-y-2 min-w-96 rounder-md">
+      <div className="space-y-2 min-w-96 max-w-96 rounder-md">
         {items
           .filter(
             filter.remaining !== filter.completed
