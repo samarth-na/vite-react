@@ -1,3 +1,9 @@
+---
+id: useState
+aliases: []
+tags: []
+---
+
 ### Key Points to Remember
 
 1. Always use `setState` to update the state.
@@ -43,10 +49,9 @@ When using the state in JSX, ensure you trigger state updates properly. Let’s 
 1. **Triggering a state update with a function:**
 
    ```tsx
-   const changeState = () => {
+   function changeState() {
      setState((prev) => newValue);
    };
-
    <tag some_event={changeState}></tag>;
    ```
 
@@ -68,7 +73,7 @@ When using the state in JSX, ensure you trigger state updates properly. Let’s 
 
 ---
 
-### Fixing Your Code
+### Example Code
 
 Here’s a refined version of your code:
 
@@ -88,6 +93,7 @@ export function Component() {
 
     // or do both in one line
     setState("updated value"); // or setState((prev) => newValue);
+    setState((state) => "updated value"); // or setState((prev) => newValue);
   }
 
   function returnChangeState(): string {
@@ -120,13 +126,13 @@ psudo code
 
 ```
 function(){
-1 const [state, setState ] = useState(initial value of state)
+	const [state, setState ] = useState(initial_value)
 
     function changeState(){
         NEW_STATE = state change
 
         a setstate(NEW_STATE)
-        a setState((state)=> NEW_STATE)
+        a setState( (state)=> NEW_STATE )
     }
 
     function returnChangeState(){
@@ -135,14 +141,14 @@ function(){
     }
     
     return (
-      <>
-        a <tag some_event={ changeStatefunction }></tag>            | best most simple way i live this
-        b <tag some_event={setState( returnChangeState() )}></tag>  | a bit complex still good 
+    <>
+	a <tag some_event={ changeStatefunction }></tag>           | best most simple way i live this
+    b <tag some_event={setState( returnChangeState() )}></tag> | a bit complex still good 
 
-        c <tag some_event={() => setState( NEW_STATE )}></tag>      | this only works in fantasy no real use cases
-        d <tag some_event={() => setState(()=>  NEW_STATE )}></tag> | over fucking complicated 
-        <tag> {state} </tag>
-      </>
+    c <tag some_event={() => setState( NEW_STATE )}></tag>     | this only works in fantasy 
+    d <tag some_event={() => setState(()=> NEW_STATE )}></tag> | over fucking complicated 
+    <tag> {state} </tag>
+    </>
     )
 
 }
