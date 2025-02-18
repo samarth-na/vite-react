@@ -1,7 +1,7 @@
 // import Example from "./components/form";
-//
-import Todo from "./components/todo";
 // import Todonew from "./components/newtodo";
+
+import Todo from "./components/todo";
 import "./index.css";
 
 function App() {

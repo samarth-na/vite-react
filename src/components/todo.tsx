@@ -1,15 +1,5 @@
 import { useEffect, useState } from "react";
-import { Event } from "../types.tsx";
-
-interface Item {
-  id: number;
-  text: string;
-  done: boolean;
-}
-interface Filter {
-  remaining: boolean;
-  completed: boolean;
-}
+import { Event, Item, Filter } from "../types.tsx";
 
 function loadItems(): Item[] {
   const jsonString = localStorage.getItem("data");
@@ -21,8 +11,8 @@ function loadItems(): Item[] {
 }
 function Todo(): JSX.Element {
   //
-  const [inputText, setInputText] = useState<string>("");
-  const [items, setItems] = useState<Item[]>(loadItems());
+  const [inputState, setInputText] = useState<string>("");
+  const [itemsState, setItems] = useState<Item[]>(loadItems());
 
   const [filter, setFilter] = useState<Filter>({
     remaining: false,
@@ -30,30 +20,30 @@ function Todo(): JSX.Element {
   });
 
   function handleAdd(): void {
-    if (inputText.trim() !== "") {
+    if (inputState.trim() !== "") {
       const newItem: Item = {
         id: Date.now(),
-        text: inputText,
+        text: inputState,
         done: false,
       };
 
-      const updatedItems = [...items, newItem]; // Create the updated array
+      const updatedItems = [...itemsState, newItem]; // Create the updated array
       setItems(updatedItems); // Update the state
       setInputText(""); // Clear the input field
     }
   }
 
   function handleDelete(idToDelete: number): void {
-    setItems(items.filter((item) => item.id !== idToDelete));
+    setItems(itemsState.filter((item) => item.id !== idToDelete));
   }
 
   function handleInputChange(e: Event): void {
     setInputText(e.target.value);
   }
   useEffect(() => {
-    console.log(items);
-    localStorage.setItem("data", JSON.stringify(items)); // Save updated array to localStorage
-  }, [items]);
+    console.log(itemsState);
+    localStorage.setItem("data", JSON.stringify(itemsState)); // Save updated array to localStorage
+  }, [itemsState]);
 
   useEffect(() => {
     console.log(
@@ -71,12 +61,15 @@ function Todo(): JSX.Element {
         <input
           className="rounded border b-2"
           type="text"
-          value={inputText}
+          value={inputState}
           onChange={handleInputChange}
           placeholder="Add new item"
         />
 
-        <button onClick={handleAdd} className="bg-blue-500">
+        <button
+          onClick={handleAdd}
+          className="text-black ring-gray-300 shadow-none"
+        >
           Add
         </button>
       </div>
@@ -85,7 +78,7 @@ function Todo(): JSX.Element {
       <ListHeaderText />
 
       <div className="space-y-2 min-w-96 max-w-96 rounder-md">
-        {items
+        {itemsState
           .filter(
             filter.remaining !== filter.completed
               ? (item: Item) => item.done !== filter.remaining
@@ -107,7 +100,7 @@ function Todo(): JSX.Element {
                 //
                 onChange={() =>
                   setItems(
-                    items.map((i) =>
+                    itemsState.map((i) =>
                       i.id === item.id ? { ...i, done: !i.done } : i
                     )
                   )
@@ -129,7 +122,7 @@ function Todo(): JSX.Element {
   function ListHeaderText() {
     return (
       <div>
-        {items.length} {items.length == 1 ? "task  " : "tasks "}
+        {itemsState.length} {itemsState.length == 1 ? "task  " : "tasks "}
         {"remaining"}
       </div>
     );
@@ -161,10 +154,14 @@ function Todo(): JSX.Element {
   }
 
   function DeleteListButton() {
+    const func = () => {
+      localStorage.removeItem("data");
+      setItems([]);
+    };
     return (
       <button
         className="max-w-max bg-red-500 hover:bg-red-500 focus:ring-red-500 basis-1/6"
-        onClick={() => localStorage.removeItem("data")}
+        onClick={func}
       >
         DELETE the list
       </button>
